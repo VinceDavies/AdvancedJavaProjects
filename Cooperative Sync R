@@ -1,0 +1,67 @@
+package cooperativesync;
+import java.io.*;
+
+
+public class R implements Runnable {
+	private String message;
+	private int count;
+	private Object obj;
+	private String fileName;
+	public R (String msg, int cnt, String fname , Object o){
+		message=msg;
+		count=cnt;
+		obj=o;
+		fileName=fname;
+	}
+
+	@Override
+	public void run() {
+		PrintWriter pw=null;
+		try{
+		pw = new PrintWriter (new FileWriter (fileName, true), true); // there was a bug on this line in assignment 7b on website
+		Thread.sleep (100);
+		} catch (Exception e){
+			e.printStackTrace();
+		} 
+		for (int i=0; i<count; i++) {
+		synchronized (obj) {
+		        //A single write within the loop will be here
+		        pw.println (message);
+		        try {
+					Thread.sleep (100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		        obj.notify ( );
+		        try {
+					obj.wait ( );
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		try {
+			Thread.sleep (100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+		synchronized (obj) {
+		        obj.notify ( );
+		}
+
+	}
+
+}
+
+/* 
+ * How to merge File A and File B into File AB
+ * 
+ * use "FileReader" instead of "FileWriter" to read files 
+ * BufferedReader
+ * .readline
+ * see assignment 7c on the website for java257. 
+ * 
+ */
