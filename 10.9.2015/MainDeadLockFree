@@ -1,0 +1,24 @@
+package as7c;
+
+public class MainDeadLockFree {
+
+	public static void main(String[] args) {
+		String fileA = "fileA.txt";
+		String fileB = "fileB.txt";
+		Object objA = new Object();
+		Object objB = new Object();
+		Object objAB = new Object();
+		String fileAB = "fileAB.txt";
+		String fileBA = "fileBA.txt";
+
+		MergeRunnable2 mr1 = new MergeRunnable2(fileA, objA, fileB, objB,
+				fileAB, objAB);
+		MergeRunnable2 mr2 = new MergeRunnable2(fileB, objB, fileA, objA,
+				fileBA, objAB);
+		Thread t1 = new Thread(mr1);
+		Thread t2 = new Thread(mr2);
+		t1.start();
+		t2.start();
+	}
+
+}
