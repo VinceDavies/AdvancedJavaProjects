@@ -1,0 +1,19 @@
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+
+
+
+public class TestJPanelExt {
+
+	public static void main(String[] args) {
+		JFrame f = new JFrame();
+		f.setVisible(true);
+		f.setSize(400, 200);
+		f.setTitle("Calculator");
+		JPanelExt p = new JPanelExt();
+		p.setVisible(true);
+		f.add(p);
+	}
+
+}
